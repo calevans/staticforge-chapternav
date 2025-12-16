@@ -6,7 +6,7 @@
 
 ```bash
 composer require calevans/staticforge-chapternav
-php vendor/bin/staticforge feature:setup chapternav
+php vendor/bin/staticforge feature:setup calevans/staticforge-chapternav
 ```
 
 ## Configuration
