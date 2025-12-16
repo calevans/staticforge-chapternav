@@ -1,0 +1,5 @@
+# Chapter Navigation Configuration
+chapter_nav:
+  menus: "2"
+  prev_symbol: "←"
+  next_symbol: "→"
