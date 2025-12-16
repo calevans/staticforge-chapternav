@@ -92,6 +92,13 @@ class ChapterNavService
             'pages' => $this->chapterNavData
         ];
 
+        // Also update the container so the renderer can access it
+        $features = $container->getVariable('features') ?? [];
+        $features['ChapterNav'] = [
+            'pages' => $this->chapterNavData
+        ];
+        $container->setVariable('features', $features);
+
         return $parameters;
     }
 
