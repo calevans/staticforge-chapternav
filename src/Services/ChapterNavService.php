@@ -97,7 +97,12 @@ class ChapterNavService
         $features['ChapterNav'] = [
             'pages' => $this->chapterNavData
         ];
-        $container->setVariable('features', $features);
+
+        if ($container->hasVariable('features')) {
+            $container->updateVariable('features', $features);
+        } else {
+            $container->setVariable('features', $features);
+        }
 
         return $parameters;
     }
@@ -165,15 +170,31 @@ class ChapterNavService
                 continue;
             }
 
-            // Check if this is a single item or a dropdown structure
+            // Case 1: Item is a page itself
             if (isset($item['title'])) {
-                // Single item - add it
                 $pages[] = $item;
-            } elseif (is_array($item)) {
-                // Might be a dropdown structure, check for position 0 (dropdown title)
-                if (isset($item[0]) && isset($item[0]['title'])) {
-                    // This is a dropdown title, skip it (we don't navigate to dropdown titles)
-                    continue;
+            }
+
+            // Case 2: Item has children (whether it's a page or just a container)
+            if (is_array($item)) {
+                $children = [];
+                foreach ($item as $key => $val) {
+                    // Children are stored with integer keys
+                    if (is_int($key) && is_array($val) && isset($val['title'])) {
+                        $children[$key] = $val;
+                    }
+                }
+
+                if (!empty($children)) {
+                    ksort($children);
+                    foreach ($children as $key => $child) {
+                        // If this is a container (no top-level title), key 0 is the label.
+                        // We usually skip the label for navigation flow.
+                        if (!isset($item['title']) && $key === 0) {
+                            continue;
+                        }
+                        $pages[] = $child;
+                    }
                 }
             }
         }
