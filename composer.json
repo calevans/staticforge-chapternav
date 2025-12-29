@@ -15,7 +15,6 @@
     },
     "require": {
         "php": "^8.4",
-        "eicc/utils": "^1.2",
         "eicc/staticforge": ">=1.14.0"
     },
     "require-dev": {
