@@ -4,12 +4,13 @@ namespace EICC\StaticForge\Features\ChapterNav;
 
 use EICC\StaticForge\Core\BaseFeature;
 use EICC\StaticForge\Core\FeatureInterface;
+use EICC\StaticForge\Core\ConfigurableFeatureInterface;
 use EICC\StaticForge\Core\EventManager;
 use EICC\StaticForge\Features\ChapterNav\Services\ChapterNavService;
 use EICC\Utils\Container;
 use EICC\Utils\Log;
 
-class Feature extends BaseFeature implements FeatureInterface
+class Feature extends BaseFeature implements FeatureInterface, ConfigurableFeatureInterface
 {
     protected string $name = 'ChapterNav';
     private Log $logger;
@@ -46,5 +47,15 @@ class Feature extends BaseFeature implements FeatureInterface
         }
 
         return $this->service->processChapterNavigation($container, $parameters);
+    }
+
+    public function getRequiredConfig(): array
+    {
+        return [];
+    }
+
+    public function getRequiredEnv(): array
+    {
+        return [];
     }
 }
